@@ -1,4 +1,4 @@
-package com.atpl.smt.ui;
+package com.atpl.smt.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,9 +9,8 @@ import android.os.Handler;
 import android.widget.TextView;
 
 import com.atpl.smt.R;
-import com.atpl.smt.ui.activity.WebPage;
 
-public class SplashActivity extends Activity{
+public class SplashActivity extends Activity {
 
     //instance of textview to show version information
     TextView versionInforamtion;
@@ -21,7 +20,7 @@ public class SplashActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        versionInforamtion=(TextView)findViewById(R.id.tv_version);
+        versionInforamtion = (TextView) findViewById(R.id.tv_version);
 
         try {
 
@@ -38,10 +37,10 @@ public class SplashActivity extends Activity{
             try {
 
 
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -52,17 +51,17 @@ public class SplashActivity extends Activity{
 
 
     private void scheduleSplashScreen() {
-        int splashScreenDuration = 1000*4;
+        int splashScreenDuration = 1000 * 4;
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent=new Intent(SplashActivity.this, WebPage.class);
-                startActivity(intent);
-                finish();
-            }
-        },splashScreenDuration
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }, splashScreenDuration
         );
     }
 }

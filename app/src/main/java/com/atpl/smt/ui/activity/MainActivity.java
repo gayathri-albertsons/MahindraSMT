@@ -30,10 +30,12 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
@@ -69,38 +71,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-public class WebPage extends Activity {
-
-    WebView webView;
-
+public class MainActivity extends Activity {
     private String URL_PICTURE = "https://ent.ngage.services/installation/takephoto.php";
-
-    private String DEFAULT_URL = "https://mahindracms.m-devsecops.com";
-//private String DEFAULT_URL = "http://mazvlappro01.centralindia.cloudapp.azure.com";
-
-
-    //shweta server url
-
+    //private String DEFAULT_URL = "https://mahindracms.m-devsecops.com";
+    private String DEFAULT_URL = "http://mazvlappro01.centralindia.cloudapp.azure.com";
     private String URL_SUBPART = "/installation/index.php";
-
     private String URL_TAKEPHOTO = "/installation/takephoto.php";
-
     private String DEFAULT_BASE_URL = "http://192.168.1.126/xibo-cms-1.8.3";
-
     private String DEFAULT_SECONDARY_URL = "http://192.168.1.126/xibo-cms-1.8.3";
-
     private String URL = DEFAULT_URL + URL_SUBPART;
-    // private String URL = "http://noq.services/feedback/feed.html?mobileno=ODE0NzE1MjI2OA==&branchID=ODc0Mg==&orgID=MjE=";
-
-    // private String URL = "http://192.168.1.243/noqapi/teller/";
-
-    // private String URL ="http://192.168.1.243/noqapi/website/feedback/feed.html?mobileno=OTk5OTk5OTk5OQ==&branchID=ODc0Mg==&orgID=MjE=";
-
-    // private String URL ="http://noq.services/feedback/feed.html?mobileno=OTk5OTk5OTk5OQ==&branchID=ODc0Mg==&orgID=MjE=";
-
-    //  private String URL = "http://banking.noq.services/teller";
+    WebView webView;
     AddressInformation addressInformation;
-
     // GPSTracker class
     GPSTracker gps;
 
@@ -108,8 +89,9 @@ public class WebPage extends Activity {
     double longitude;
 
     private static final int REQUEST_CODE_PERMISSION = 2;
-
     private static final int REQUEST_PERMISSION = 20;
+    private int QR_REQUEST = 10;
+    private int PICTURE_ID = 101;
 
     private String QRCODE_INFORMATION = "";
 
@@ -120,91 +102,50 @@ public class WebPage extends Activity {
             Manifest.permission.CAMERA
     };
 
-    private int QR_REQUEST = 10;
-
-    private int PICTURE_ID = 101;
-
-
     private String IMAGE_FIRST_BASE64 = "";
     private String IMAGE_SECOND_BASE64 = "";
-
-
     private String FILE_NAME = "";
-
     private String FULL_FILE = "";
-
-
     private String MY_JS_FILE_NAME = "MyJSClient";
     private String STRING_EXTRA = "?a=1";
-
     private Uri FILE_URI = null;
-
     private Uri fileUri = null;
-
     private TextView tvErrorReport;
-
     private int locationRequest = 100;
-
     private LocationManager locationManager = null;
-
     LocationListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         try {
             setContentView(R.layout.activity_web_page);
 
             init();
 
-
-
-            if(Build.VERSION.SDK_INT>23) {
+            if (Build.VERSION.SDK_INT > 23) {
                 if (checkSelfPermission()) {
-
                     initGps();
-
                     isGpsEnabled();
-
-                    getAddressInfromation();
-
+                    getAddressInformation();
                 }
-
-            }else {
-
+            } else {
                 isGpsEnabled();
-
                 initGps();
-
-                getAddressInfromation();
-
+                getAddressInformation();
             }
 
             if (CommonFunctions.isNetworkAvailable(this)) {
-
                 loadUrl(URL);
-
             } else {
                 showMessage(getResources().getString(R.string.noNetwork));
             }
-
-
         } catch (Exception ex) {
-
-            Toast.makeText(WebPage.this, "Error" + "" + ex.toString(), Toast.LENGTH_LONG).show();
-
-
+            Toast.makeText(MainActivity.this, "Error" + "" + ex.toString(), Toast.LENGTH_LONG).show();
             tvErrorReport.setVisibility(View.VISIBLE);
-
             tvErrorReport.setText("Error" + ex.toString());
-
-
         }
-
     }
-
 
     void init() {
         webView = (WebView) findViewById(R.id.webView);
@@ -221,12 +162,9 @@ public class WebPage extends Activity {
      * changes(function will checkSelfPermission) made(24.018) **by #Gyanesh
      **/
     public boolean checkSelfPermission() {
-
         boolean permissionEnabled = false;
         try {
-
             if (!hasPermissions(this, PERMISSIONS)) {
-
                 ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION);
             } else {
                 permissionEnabled = true;
@@ -236,7 +174,6 @@ public class WebPage extends Activity {
         }
         return permissionEnabled;
     }
-
 
     /**
      * changes(function will check permission) made (24.018) by #Gyanesh
@@ -254,9 +191,7 @@ public class WebPage extends Activity {
 
 
     public void initGps() {
-
-        gps = new GPSTracker(WebPage.this);
-
+        gps = new GPSTracker(MainActivity.this);
         // check if GPS enabled
         if (gps.canGetLocation()) {
             latitude = gps.getLatitude();
@@ -264,50 +199,35 @@ public class WebPage extends Activity {
 
             initializeAddress();
             //displayInformation();
-
-
         } else {
             // can't get location
             // GPS or Network is not enabled
-
             showMessage(getResources().getString(R.string.gpsError));
         }
-
-
     }
 
-
-    /**function shows to enable the gps **/
+    /**
+     * function shows to enable the gps
+     **/
     private void isGpsEnabled() {
-
-
         LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
         boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         // Check if enabled and if not send user to the GPS settings
         if (!enabled) {
-
             showMessage("Please Enable the Gps !");
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
         }
-
-
     }
 
-
     void loadUrl(String url) throws Exception {
-
-
         webView.addJavascriptInterface(new MyJavascriptInterface(this), MY_JS_FILE_NAME);
 
         try {
-
-
             // webView.loadData(URL,"text/html","UTF-8");
             WebSettings webSettings = webView.getSettings();
             webSettings.setDomStorageEnabled(true);
-
             webSettings.setJavaScriptEnabled(true); // enable javascript
             webSettings.setSaveFormData(true);
             webSettings.setLoadWithOverviewMode(true);
@@ -321,31 +241,15 @@ public class WebPage extends Activity {
             webView.setHorizontalScrollBarEnabled(false);
             webView.getSettings().setAllowFileAccessFromFileURLs(true); //Maybe you don't need this rule
             webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-
-
             webView.setWebViewClient(new MyBrowser());
-
-
             //changes for debugging
             if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
                 WebView.setWebContentsDebuggingEnabled(true);
             }
-
-
         } catch (Exception ex) {
-
             throw new Exception("ex");
-
         }
-        //webView.getSettings().setBuiltInZoomControls(true);
-        //webView.getSettings().setSupportMultipleWindows(true);
-
-
-        //added by pawan
-
-
     }
-
 
     String getData() {
 
@@ -1248,24 +1152,15 @@ public class WebPage extends Activity {
     }
 
     public String initializeAddress() {
-
         StringBuilder stringBuilder = new StringBuilder();
-
-
         Geocoder geocoder;
         List<Address> addresses;
-        geocoder = new Geocoder(WebPage.this, Locale.getDefault());
+        geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
 
         if (gps != null) {
-
-
             try {
-
-
                 if (geocoder.isPresent()) {
-
                     addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-
                     String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
                     String city = addresses.get(0).getLocality();
                     String state = addresses.get(0).getAdminArea();
@@ -1279,125 +1174,81 @@ public class WebPage extends Activity {
                     addressInformation.setPostalCode(postalCode);
                     addressInformation.setLocality(knownName);
 
-
                     if (address != null) {
                         stringBuilder.append(address);
                     }
-
                     if (city != null) {
                         stringBuilder.append(city);
                     }
-
                     if (state != null) {
                         stringBuilder.append(state);
                     }
-
                     if (country != null) {
                         stringBuilder.append(country);
                     }
-
                     if (postalCode != null) {
-
                         stringBuilder.append(postalCode);
                     }
                     if (knownName != null) {
                         stringBuilder.append(knownName);
                     }
                 }
-
-
             } catch (Exception ex) {
-
+                ex.printStackTrace();
             }
-
         }
-
-
         return stringBuilder.toString();
-
     }
 
-
-    public String getAddressInfromation() {
-
+    public String getAddressInformation() {
         StringBuilder stringBuilder = new StringBuilder();
-
-
         Geocoder geocoder;
         List<Address> addresses;
         geocoder = new Geocoder(this, Locale.getDefault());
 
         if (gps != null) {
-
-
             try {
-
-
                 addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-
                 String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
                 String city = addresses.get(0).getLocality();
                 String state = addresses.get(0).getAdminArea();
                 String country = addresses.get(0).getCountryName();
                 String postalCode = addresses.get(0).getPostalCode();
                 String knownName = addresses.get(0).getFeatureName();
-
-
                 if (address != null) {
                     stringBuilder.append(address);
                 }
-
                 if (city != null) {
                     stringBuilder.append(city);
                 }
-
                 if (state != null) {
                     stringBuilder.append(state);
                 }
-
                 if (country != null) {
                     stringBuilder.append(country);
                 }
-
                 if (postalCode != null) {
-
                     stringBuilder.append(postalCode);
                 }
                 if (knownName != null) {
                     stringBuilder.append(knownName);
                 }
-
-
             } catch (Exception ex) {
-
+                ex.printStackTrace();
             }
-
         }
-
-
         return stringBuilder.toString();
-
     }
-
 
     void openQrCodeActivity(String url) {
-
-        PrefFile.saveUrl(WebPage.this, url);
-
+        PrefFile.saveUrl(MainActivity.this, url);
         Intent i = new Intent(this, ScannedBarcodeActivity.class);
         startActivityForResult(i, QR_REQUEST);
-
-        try {
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
     }
 
-
-    /**creating pdf file **/
+    /**
+     * creating pdf file
+     **/
     public void stringtopdf(String data) {
         String extstoragedir = Environment.getExternalStorageDirectory().toString();
         File fol = new File(extstoragedir, "pdf");
@@ -1409,28 +1260,19 @@ public class WebPage extends Activity {
             final File file = new File(folder, "sample.pdf");
             file.createNewFile();
             FileOutputStream fOut = new FileOutputStream(file);
-
-
             PdfDocument document = new PdfDocument();
-            PdfDocument.PageInfo pageInfo = new
-                    PdfDocument.PageInfo.Builder(100, 100, 1).create();
+            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(100, 100, 1).create();
             PdfDocument.Page page = document.startPage(pageInfo);
             Canvas canvas = page.getCanvas();
             Paint paint = new Paint();
-
             canvas.drawText(data, 10, 10, paint);
-
-
             document.finishPage(page);
             document.writeTo(fOut);
             document.close();
-
         } catch (IOException e) {
             Log.i("error", e.getLocalizedMessage());
         }
-
     }
-
 
     private void viewPdf(String file, String directory) {
 
@@ -1475,7 +1317,7 @@ public class WebPage extends Activity {
      **/
     void showMessage(String message) {
 
-        Toast.makeText(WebPage.this, "" + message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "" + message, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -1596,13 +1438,13 @@ public class WebPage extends Activity {
 
                 try {
 
-                    PrefFile.saveQrCode(WebPage.this, QRCODE_INFORMATION);
+                    PrefFile.saveQrCode(MainActivity.this, QRCODE_INFORMATION);
 
                     String dataRefined = QRCODE_INFORMATION.substring(QRCODE_INFORMATION.indexOf("{"), QRCODE_INFORMATION.length());
 
                     QRCODE_INFORMATION = dataRefined;
 
-                    PrefFile.saveQrCode(WebPage.this, QRCODE_INFORMATION);
+                    PrefFile.saveQrCode(MainActivity.this, QRCODE_INFORMATION);
 
                 } catch (Exception ex) {
                     ex.toString();
@@ -1633,7 +1475,7 @@ public class WebPage extends Activity {
                 }
 
 
-                String url = PrefFile.getCaptureImageUrl(WebPage.this);
+                String url = PrefFile.getCaptureImageUrl(MainActivity.this);
 
                 if (url != null) {
                     try {
@@ -1697,10 +1539,10 @@ public class WebPage extends Activity {
             String encodedImage = encodeImage(selectedImage, imageValue);
 
             //saving the image
-            PrefFile.saveCapturedImage(WebPage.this, FILE_NAME, encodedImage);
+            PrefFile.saveCapturedImage(MainActivity.this, FILE_NAME, encodedImage);
 
 
-            PrefFile.saveAllFileInformation(WebPage.this, FILE_NAME, FULL_FILE + "," + encodedImage);
+            PrefFile.saveAllFileInformation(MainActivity.this, FILE_NAME, FULL_FILE + "," + encodedImage);
 
 
         } catch (Exception ex) {
@@ -1715,7 +1557,7 @@ public class WebPage extends Activity {
      **/
     void startActivityAgain() {
 
-        String urlSaved = PrefFile.getSavedUrl(WebPage.this);
+        String urlSaved = PrefFile.getSavedUrl(MainActivity.this);
 
 
         try {
@@ -1750,15 +1592,15 @@ public class WebPage extends Activity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
 
-        try{
+        try {
 
             isGpsEnabled();
 
             initGps();
 
 
-        }catch (Exception ex){
-            Toast.makeText(WebPage.this,"Please enable gps",Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            Toast.makeText(MainActivity.this, "Please enable gps", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -1778,9 +1620,6 @@ public class WebPage extends Activity {
 
 
             // Toast.makeText(WebPage.this, "Latitude", Toast.LENGTH_SHORT).show();
-
-
-
 
 
             isGpsEnabled();
@@ -1891,7 +1730,7 @@ public class WebPage extends Activity {
 
 
             try {
-                PrefFile.deleteSharedPreference(WebPage.this);
+                PrefFile.deleteSharedPreference(MainActivity.this);
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -1921,7 +1760,7 @@ public class WebPage extends Activity {
 
             Geocoder geocoder;
             List<Address> addresses = new ArrayList<>();
-            geocoder = new Geocoder(WebPage.this, Locale.getDefault());
+            geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
 
             String city = "";
 
@@ -1951,8 +1790,6 @@ public class WebPage extends Activity {
         public String getQrCodeText(String url) {
 
             //Toast.makeText(WebPage.this,"Loading scanner page.." +"Url to save.."+url,Toast.LENGTH_SHORT).show();
-
-
 
 
             String qrCode = null;
@@ -1985,47 +1822,28 @@ public class WebPage extends Activity {
 
         @android.webkit.JavascriptInterface
         public String getAddress() {
-
             if (gps.canGetLocation()) {
-                return getAddressInfromation();
+                return getAddressInformation();
             } else {
-
-
                 return null;
             }
         }
 
-
         @android.webkit.JavascriptInterface
         public void captureImage(String imageName, String divName, String url, String typeName) {
-
-
-            PrefFile.saveCaptureImageUrl(WebPage.this, url);
-
-
+            PrefFile.saveCaptureImageUrl(MainActivity.this, url);
             FILE_NAME = typeName;
-
-            FULL_FILE = imageName + "," + divName + "," + url +"," +typeName;
-
-
-            PrefFile.saveAllFileInformation(WebPage.this, typeName, imageName + "," + divName + "," + url + "," + typeName);
-
-
+            FULL_FILE = imageName + "," + divName + "," + url + "," + typeName;
+            PrefFile.saveAllFileInformation(MainActivity.this, typeName, imageName + "," + divName + "," + url + "," + typeName);
             openCamera(PICTURE_ID);
-
-           // return null;
+            // return null;
         }
-
-
 
         @android.webkit.JavascriptInterface
         public String getSavedQrInfo() {
             //Toast.makeText(WebPage.this,"Getting qr code",Toast.LENGTH_SHORT).show();
-            String qrCodeInfo = PrefFile.getSavedQrCode(WebPage.this);
-
-
+            String qrCodeInfo = PrefFile.getSavedQrCode(MainActivity.this);
             if (qrCodeInfo != null) {
-
                 return qrCodeInfo;
 
             } else {
@@ -2044,17 +1862,10 @@ public class WebPage extends Activity {
         getDisplayScreenShotBase64(String fileName) {
 
 
-
-
-
-            String saveImageFile = PrefFile.getAllInformation(WebPage.this, fileName);      //PrefFile.getSavedImagefile(WebPage.this,fileName);
-
-
+            String saveImageFile = PrefFile.getAllInformation(MainActivity.this, fileName);      //PrefFile.getSavedImagefile(WebPage.this,fileName);
 
 
             if (saveImageFile != null) {
-
-
 
 
                 return saveImageFile;
@@ -2075,23 +1886,22 @@ public class WebPage extends Activity {
         @android.webkit.JavascriptInterface
         public String getDeviceID() {
 
-            String uuid=getUUID(context).toString();
+            String uuid = getUUID(context).toString();
 
             return getUUID(context).toString();
         }
 
 
-
         @android.webkit.JavascriptInterface
-        public void deleteCache(){
+        public void deleteCache() {
 
             //Toast.makeText(WebPage.this,"Deleting file",Toast.LENGTH_LONG).show();
             try {
-                PrefFile.deleteSharedPreference(WebPage.this);
+                PrefFile.deleteSharedPreference(MainActivity.this);
 
-            }catch (Exception ex){
+            } catch (Exception ex) {
 
-                Log.e("Webpage deleteCache",ex.toString());
+                Log.e("Webpage deleteCache", ex.toString());
 
                 ex.printStackTrace();
             }
@@ -2125,13 +1935,13 @@ public class WebPage extends Activity {
     }
 
 
-    public String getSecondaryUrl(){
+    public String getSecondaryUrl() {
 
-        if(PrefFile.getSecondaryUrl(WebPage.this)!=null){
+        if (PrefFile.getSecondaryUrl(MainActivity.this) != null) {
 
-            return PrefFile.getSecondaryUrl(WebPage.this);
+            return PrefFile.getSecondaryUrl(MainActivity.this);
 
-        }else{
+        } else {
             return DEFAULT_SECONDARY_URL;
         }
 
@@ -2169,7 +1979,6 @@ public class WebPage extends Activity {
             super.onReceivedError(view, request, error);
 
 
-
         }
 
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
@@ -2178,11 +1987,11 @@ public class WebPage extends Activity {
 
     }
 
-    public void locationListener(){
+    public void locationListener() {
 
-       locationManager=(LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-        LocationListener locationListener=new LocationListener() {
+        LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
 
@@ -2205,21 +2014,19 @@ public class WebPage extends Activity {
         };
 
 
-
-        if(Build.VERSION.SDK_INT>23) {
+        if (Build.VERSION.SDK_INT > 23) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
 
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, locationRequest);
 
-            }else{
+            } else {
 
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             }
 
 
-
-        }else{
+        } else {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
 
