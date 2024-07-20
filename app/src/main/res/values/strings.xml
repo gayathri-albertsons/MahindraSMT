@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">nGageSmt</string>
+    <string name="take_barcode_picture">Take Barcode Picture</string>
+    <string name="scan_barcode">Scan Barcode</string>
+    <string name="open_camera">OPEN CAMERA</string>
+    <string name="send_email">SEND EMAIL</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="loginScreen">Login Please</string>
+
+    <!-- WebPage Activity instances -->
+    <string name="openingQrCodeScanner">Opening QrCode Scanner ...</string>
+    <string name="noNetwork">No Network </string>
+    <string name="gpsError">Not able to fetch your location</string>
+    <string name="decodingImage">Decoding Image</string>
+    <string name="decodingImageError">Decoding Image Error</string>
+    <string name="permissionGranted">Permission Granted</string>
+    <string name="checkGps">Please Check Gps</string>
+
+
+    <!--BarCode Activity instances -->
+    <string name="processingImage">Processing Image.....</string>
+    <string name="barcodeStarted">Barcode Scanning Started.....</string>
+    <string name="preventingMemoLeakBarCode">To prevent memory leaks barcode scanner has been stopped</string>
+    <string name="select">Select</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="field_empty">Field empty !</string>
+
+</resources>

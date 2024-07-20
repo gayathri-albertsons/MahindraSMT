@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0d4360</color>
+    <color name="colorPrimaryDark">#4c4b4d</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="networkavialble">#FFEB3B</color>
+    <color name="buttonvalue">#000000</color>
+    <color name="buttontextcolor">#FFFFFF</color>
+
+    <color name="darkbackground">#190f08</color>
+
+    <color name="bardcodescanning">#4e6582</color>
+    <color name="barcodescanned">#35a7bf</color>
+
+    <color name="tvQrBackground">#0d4360</color>
+</resources>
