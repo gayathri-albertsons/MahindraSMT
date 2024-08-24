@@ -1,4 +1,4 @@
-package com.atpl.smt.gps;
+package com.atpl.digismt.gps;
 
 import android.Manifest;
 import android.app.Service;

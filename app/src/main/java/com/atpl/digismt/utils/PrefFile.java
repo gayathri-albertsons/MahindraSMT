@@ -1,9 +1,9 @@
-package com.atpl.smt.utils;
+package com.atpl.digismt.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.atpl.smt.constant.Constants;
+import com.atpl.digismt.constant.Constants;
 
 public class PrefFile {
 

@@ -1,4 +1,4 @@
-package com.atpl.smt;
+package com.atpl.digismt;
 
 import android.Manifest;
 import android.app.Activity;
@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.atpl.smt.constant.Constants;
+import com.atpl.digismt.constant.Constants;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;

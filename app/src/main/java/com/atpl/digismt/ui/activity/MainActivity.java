@@ -1,4 +1,4 @@
-package com.atpl.smt.ui.activity;
+package com.atpl.digismt.ui.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -53,13 +53,13 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.atpl.smt.R;
-import com.atpl.smt.ScannedBarcodeActivity;
-import com.atpl.smt.bean.AddressInformation;
-import com.atpl.smt.constant.Constants;
-import com.atpl.smt.gps.GPSTracker;
-import com.atpl.smt.utils.CommonFunctions;
-import com.atpl.smt.utils.PrefFile;
+import com.atpl.digismt.R;
+import com.atpl.digismt.ScannedBarcodeActivity;
+import com.atpl.digismt.bean.AddressInformation;
+import com.atpl.digismt.constant.Constants;
+import com.atpl.digismt.gps.GPSTracker;
+import com.atpl.digismt.utils.CommonFunctions;
+import com.atpl.digismt.utils.PrefFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

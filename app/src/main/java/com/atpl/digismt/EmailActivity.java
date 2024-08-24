@@ -1,4 +1,4 @@
-package com.atpl.smt;
+package com.atpl.digismt;
 
 import android.content.Intent;
 import android.os.Bundle;

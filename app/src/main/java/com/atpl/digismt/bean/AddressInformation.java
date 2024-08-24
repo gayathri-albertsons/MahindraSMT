@@ -1,4 +1,4 @@
-package com.atpl.smt.bean;
+package com.atpl.digismt.bean;
 
 public class AddressInformation {
     private String city;

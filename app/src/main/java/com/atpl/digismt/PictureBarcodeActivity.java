@@ -1,4 +1,4 @@
-package com.atpl.smt;
+package com.atpl.digismt;
 
 import android.Manifest;
 import android.content.Context;

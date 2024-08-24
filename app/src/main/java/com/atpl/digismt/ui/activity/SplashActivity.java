@@ -1,4 +1,4 @@
-package com.atpl.smt.ui.activity;
+package com.atpl.digismt.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
 
-import com.atpl.smt.R;
+import com.atpl.digismt.R;
 
 public class SplashActivity extends Activity {
 

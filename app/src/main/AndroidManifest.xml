@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="m">
 
-        <activity android:name="com.atpl.smt.ui.activity.SplashActivity"
+        <activity android:name="com.atpl.digismt.ui.activity.SplashActivity"
             android:theme="@style/NoActionBar"
             android:configChanges="keyboardHidden|orientation"
             android:exported="true">
@@ -39,13 +39,13 @@
 
         </activity>
 
-        <activity android:name="com.atpl.smt.PictureBarcodeActivity" />
-        <activity android:name="com.atpl.smt.ScannedBarcodeActivity" />
-        <activity android:name="com.atpl.smt.ui.activity.MainActivity"
+        <activity android:name="com.atpl.digismt.PictureBarcodeActivity" />
+        <activity android:name="com.atpl.digismt.ScannedBarcodeActivity" />
+        <activity android:name="com.atpl.digismt.ui.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation" />
 
         <activity
-            android:name="com.atpl.smt.EmailActivity"
+            android:name="com.atpl.digismt.EmailActivity"
             android:windowSoftInputMode="adjustPan" />
 
         <meta-data

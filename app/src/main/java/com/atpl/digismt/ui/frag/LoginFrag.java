@@ -1,4 +1,4 @@
-package com.atpl.smt.ui.frag;
+package com.atpl.digismt.ui.frag;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.atpl.smt.R;
+import com.atpl.digismt.R;
 
 
 /**

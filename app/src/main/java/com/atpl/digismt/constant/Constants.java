@@ -1,4 +1,4 @@
-package com.atpl.smt.constant;
+package com.atpl.digismt.constant;
 
 public class Constants {
 
