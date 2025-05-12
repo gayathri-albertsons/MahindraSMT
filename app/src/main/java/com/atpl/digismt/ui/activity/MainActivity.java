@@ -73,8 +73,8 @@ import java.util.UUID;
 
 public class MainActivity extends Activity {
     private String URL_PICTURE = "https://ent.ngage.services/installation/takephoto.php";
-    //private String DEFAULT_URL = "https://mahindracms.m-devsecops.com";
-    private String DEFAULT_URL = "http://mazvlappro01.centralindia.cloudapp.azure.com";
+    private String DEFAULT_URL = "https://mahindracms.m-devsecops.com";
+    //private String DEFAULT_URL = "http://mazvlappro01.centralindia.cloudapp.azure.com";
     private String URL_SUBPART = "/installation/index.php";
     private String URL_TAKEPHOTO = "/installation/takephoto.php";
     private String DEFAULT_BASE_URL = "http://192.168.1.126/xibo-cms-1.8.3";
