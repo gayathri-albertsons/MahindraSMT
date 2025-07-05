@@ -73,7 +73,7 @@ import java.util.UUID;
 
 public class MainActivity extends Activity {
     private String URL_PICTURE = "https://ent.ngage.services/installation/takephoto.php";
-    private String DEFAULT_URL = "https://mahindracms.m-devsecops.com";
+    private String DEFAULT_URL = "https://ngage.mahindracms.com";
     //private String DEFAULT_URL = "http://mazvlappro01.centralindia.cloudapp.azure.com";
     private String URL_SUBPART = "/installation/index.php";
     private String URL_TAKEPHOTO = "/installation/takephoto.php";

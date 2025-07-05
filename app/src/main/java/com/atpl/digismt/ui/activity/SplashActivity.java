@@ -54,14 +54,11 @@ public class SplashActivity extends Activity {
         int splashScreenDuration = 1000 * 4;
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }, splashScreenDuration
+        handler.postDelayed(() -> {
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }, splashScreenDuration
         );
     }
 }
